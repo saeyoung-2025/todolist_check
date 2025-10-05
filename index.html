@@ -4,503 +4,56 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Self-Management Checklist</title>
-    
-    <!-- PWA Manifest -->
     <link rel="manifest" href="./manifest.json">
-    
-    <!-- PWA Meta Tags -->
     <meta name="theme-color" content="#007aff">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <meta name="apple-mobile-web-app-title" content="Checklist">
-    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' rx='30' fill='%23007aff'/><text x='96' y='130' text-anchor='middle' font-size='100' fill='white'>✅</text></svg>">
-    
-    <!-- Default Favicon -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' rx='30' fill='%23007aff'/><text x='96' y='130' text-anchor='middle' font-size='100' fill='white'>✅</text></svg>" type="image/svg+xml">
-    
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='55' r='35' fill='%2334c759'/><ellipse cx='50' cy='50' rx='30' ry='32' fill='%2352d273'/><ellipse cx='45' cy='45' rx='10' ry='12' fill='%23ffffff' opacity='0.3'/><rect x='48' y='15' width='4' height='10' fill='%238b4513'/><path d='M 52 20 Q 60 18 62 25' stroke='%2352d273' stroke-width='2' fill='none'/></svg>" type="image/svg+xml">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", sans-serif; 
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            padding: 20px; 
-            min-height: 100vh;
-        }
-        .container { 
-            background: rgba(255, 255, 255, 0.95); 
-            border-radius: 25px; 
-            box-shadow: 
-                0 30px 80px rgba(0,0,0,0.12), 
-                0 15px 40px rgba(0,0,0,0.08),
-                0 5px 15px rgba(0,0,0,0.05),
-                inset 0 1px 0 rgba(255,255,255,0.2); 
-            padding: 35px; 
-            max-width: 900px; 
-            margin: 0 auto; 
-            backdrop-filter: blur(25px);
-            border: 1px solid rgba(255,255,255,0.3);
-            transform-style: preserve-3d;
-            perspective: 1200px;
-        }
-        
-        .nav-arrows { 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            margin-bottom: 30px; 
-            gap: 40px; 
-        }
-        .nav-arrow { 
-            background: linear-gradient(135deg, #007aff 0%, #34c759 100%); 
-            color: white; 
-            border: none; 
-            border-radius: 50%; 
-            width: 55px; 
-            height: 55px; 
-            font-size: 22px; 
-            cursor: pointer; 
-            transition: all 0.3s ease;
-            box-shadow: 
-                0 8px 25px rgba(0, 122, 255, 0.3),
-                0 3px 10px rgba(0, 122, 255, 0.2),
-                inset 0 1px 0 rgba(255,255,255,0.2);
-        }
-        .nav-arrow:hover { 
-            transform: translateY(-3px) scale(1.05); 
-            box-shadow: 
-                0 15px 35px rgba(0, 122, 255, 0.4),
-                0 8px 20px rgba(0, 122, 255, 0.3),
-                inset 0 1px 0 rgba(255,255,255,0.3);
-        }
-        .nav-arrow:disabled { 
-            background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%); 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            transform: none;
-        }
-        .page-indicator { 
-            font-weight: 600; 
-            color: #1d1d1f; 
-            font-size: 18px; 
-            background: rgba(0, 122, 255, 0.1);
-            padding: 8px 16px;
-            border-radius: 20px;
-            border: 1px solid rgba(0, 122, 255, 0.2);
-        }
-        
-        .page { 
-            display: none;
-            transition: all 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
-            transform-style: preserve-3d;
-            perspective: 1000px;
-        }
-        .page.active { 
-            display: block;
-            transform: translateZ(0);
-            box-shadow: 
-                0 25px 50px rgba(0,0,0,0.15), 
-                0 15px 35px rgba(0,0,0,0.1),
-                0 5px 15px rgba(0,0,0,0.08),
-                inset 0 1px 0 rgba(255,255,255,0.1);
-            border-radius: 20px;
-            background: 
-                linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%),
-                linear-gradient(225deg, rgba(255,255,255,0.05) 0%, transparent 50%),
-                rgba(255,255,255,0.95);
-            padding: 30px;
-            margin: 10px;
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255,255,255,0.3);
-        }
-        h2 { 
-            text-align: center; 
-            margin-bottom: 25px; 
-            color: #1d1d1f; 
-            font-size: 28px; 
-            font-weight: 700;
-            letter-spacing: -0.5px;
-        }
-        
-        .input-row { 
-            display: flex; 
-            margin-bottom: 25px; 
-            gap: 12px; 
-        }
-        .input-row input { 
-            flex: 1; 
-            padding: 16px 20px; 
-            border-radius: 12px; 
-            border: 2px solid #e9ecef; 
-            font-size: 16px; 
-            transition: all 0.3s ease;
-            background: rgba(255,255,255,0.8);
-        }
-        .input-row input:focus {
-            outline: none;
-            border-color: #007aff;
-            box-shadow: 
-                0 0 0 4px rgba(0, 122, 255, 0.1),
-                0 8px 25px rgba(0, 122, 255, 0.15),
-                inset 0 1px 0 rgba(255,255,255,0.1);
-            background: white;
-        }
-        .input-row button { 
-            padding: 16px 24px; 
-            background: linear-gradient(135deg, #007aff 0%, #34c759 100%); 
-            border: none; 
-            border-radius: 12px; 
-            color: white; 
-            cursor: pointer; 
-            font-size: 16px; 
-            font-weight: 600;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 122, 255, 0.3);
-        }
-        .input-row button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 122, 255, 0.4);
-        }
-        
-        .task { 
-            display: grid; 
-            grid-template-columns: auto 1fr auto auto; 
-            align-items: center; 
-            gap: 15px; 
-            background: rgba(255, 255, 255, 0.9); 
-            margin: 15px 0; 
-            padding: 20px; 
-            border-radius: 16px; 
-            border: 1px solid rgba(0, 122, 255, 0.1); 
-            transition: all 0.3s ease;
-            transform-style: preserve-3d;
-            box-shadow: 
-                0 8px 25px rgba(0,0,0,0.08), 
-                0 3px 10px rgba(0,0,0,0.05),
-                inset 0 1px 0 rgba(255,255,255,0.1);
-        }
-        .task:hover {
-            transform: translateY(-3px) translateZ(10px);
-            box-shadow: 
-                0 15px 35px rgba(0,0,0,0.15), 
-                0 8px 20px rgba(0,0,0,0.1),
-                inset 0 1px 0 rgba(255,255,255,0.15);
-            border-color: rgba(0, 122, 255, 0.2);
-        }
-        .task input[type="checkbox"] { 
-            width: 22px; 
-            height: 22px; 
-            accent-color: #007aff;
-            cursor: pointer;
-        }
-        .task-text { 
-            font-weight: 500; 
-            font-size: 16px; 
-            color: #1d1d1f;
-        }
-        .point { 
-            font-weight: 600; 
-            color: #007aff; 
-            background: rgba(0, 122, 255, 0.1); 
-            padding: 8px 14px; 
-            border-radius: 20px; 
-            border: 1px solid rgba(0, 122, 255, 0.2); 
-            text-align: center; 
-            font-size: 14px; 
-        }
-        .delete-btn { 
-            background: rgba(255, 59, 48, 0.1); 
-            border: 1px solid rgba(255, 59, 48, 0.2); 
-            font-size: 18px; 
-            cursor: pointer; 
-            padding: 8px; 
-            border-radius: 10px; 
-            transition: all 0.3s ease;
-        }
-        .delete-btn:hover {
-            background: rgba(255, 59, 48, 0.2);
-            transform: scale(1.1);
-        }
-        .score { 
-            margin-top: 25px; 
-            text-align: center; 
-            font-weight: 600; 
-            color: #1d1d1f; 
-            font-size: 20px; 
-            padding: 20px; 
-            background: rgba(0, 122, 255, 0.05); 
-            border-radius: 16px; 
-            border: 1px solid rgba(0, 122, 255, 0.1);
-            box-shadow: 
-                0 10px 30px rgba(0, 122, 255, 0.1),
-                0 5px 15px rgba(0, 122, 255, 0.08),
-                inset 0 1px 0 rgba(255,255,255,0.1);
-        }
-        
-        .action-buttons { 
-            display: flex; 
-            justify-content: center; 
-            gap: 30px; 
-            margin-top: 25px; 
-        }
-        .action-buttons button { 
-            background: linear-gradient(135deg, #007aff 0%, #0056b3 100%); 
-            border: none; 
-            font-size: 18px; 
-            cursor: pointer; 
-            padding: 15px 25px;
-            border-radius: 12px;
-            color: white;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 122, 255, 0.4);
-        }
-        .action-buttons button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 122, 255, 0.6);
-            background: linear-gradient(135deg, #0066ff 0%, #003d82 100%);
-        }
-        
-        .page4-buttons { 
-            display: flex; 
-            justify-content: center; 
-            gap: 20px; 
-            margin-top: 25px; 
-        }
-        .page4-buttons button { 
-            padding: 14px 28px; 
-            border: none; 
-            border-radius: 12px; 
-            font-size: 16px; 
-            cursor: pointer; 
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-        .input-clear-btn { 
-            background: linear-gradient(135deg, #ff9500 0%, #ff6b35 100%); 
-            color: white; 
-            box-shadow: 0 4px 15px rgba(255, 149, 0, 0.3);
-        }
-        .input-clear-btn:hover { 
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(255, 149, 0, 0.4);
-        }
-        .save-btn { 
-            background: linear-gradient(135deg, #34c759 0%, #30d158 100%); 
-            color: white; 
-            box-shadow: 0 4px 15px rgba(52, 199, 89, 0.3);
-        }
-        .save-btn:hover { 
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(52, 199, 89, 0.4);
-        }
-        
-        .page6-reset { 
-            text-align: center; 
-            margin-top: 30px; 
-            padding-top: 25px; 
-            border-top: 2px solid rgba(0, 122, 255, 0.1);
-        }
-        .reset-all-btn { 
-            background: white; 
-            color: #333; 
-            border: 2px solid #ccc; 
-            border-radius: 12px; 
-            padding: 16px 32px; 
-            font-size: 16px; 
-            font-weight: 600; 
-            cursor: pointer; 
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-        .reset-all-btn:hover { 
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-            border-color: #999;
-        }
-        
-        .goal-box, .diary-box { 
-            width: 100%; 
-            min-height: 150px; 
-            padding: 20px; 
-            border: 2px solid rgba(0, 122, 255, 0.2); 
-            border-radius: 16px; 
-            font-family: inherit; 
-            font-size: 16px; 
-            resize: vertical; 
-            margin: 15px 0; 
-            transition: all 0.3s ease;
-            background: rgba(255,255,255,0.8);
-            box-shadow: 
-                inset 0 2px 5px rgba(0,0,0,0.06),
-                0 5px 15px rgba(0,0,0,0.05),
-                inset 0 1px 0 rgba(255,255,255,0.1);
-        }
-        .goal-box:focus, .diary-box:focus {
-            outline: none;
-            border-color: #007aff;
-            box-shadow: 
-                inset 0 2px 5px rgba(0,0,0,0.06),
-                0 0 0 4px rgba(0, 122, 255, 0.1),
-                0 8px 25px rgba(0, 122, 255, 0.15),
-                inset 0 1px 0 rgba(255,255,255,0.1);
-            background: white;
-        }
+        body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", sans-serif; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); padding: 20px; min-height: 100vh; }
+        .container { background: rgba(255, 255, 255, 0.95); border-radius: 25px; box-shadow: 0 30px 80px rgba(0,0,0,0.12), 0 15px 40px rgba(0,0,0,0.08); padding: 35px; max-width: 900px; margin: 0 auto; backdrop-filter: blur(25px); }
+        .nav-arrows { display: flex; justify-content: center; align-items: center; margin-bottom: 30px; gap: 40px; }
+        .nav-arrow { background: linear-gradient(135deg, #007aff 0%, #34c759 100%); color: white; border: none; border-radius: 50%; width: 55px; height: 55px; font-size: 22px; cursor: pointer; transition: all 0.3s ease; }
+        .nav-arrow:disabled { background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%); }
+        .page-indicator { font-weight: 600; color: #1d1d1f; font-size: 18px; background: rgba(0, 122, 255, 0.1); padding: 8px 16px; border-radius: 20px; }
+        .page { display: none; }
+        .page.active { display: block; padding: 30px; margin: 10px; border-radius: 20px; background: rgba(255,255,255,0.95); }
+        h2 { text-align: center; margin-bottom: 25px; color: #1d1d1f; font-size: 28px; font-weight: 700; }
+        .input-row { display: flex; margin-bottom: 25px; gap: 12px; }
+        .input-row input { flex: 1; padding: 16px 20px; border-radius: 12px; border: 2px solid #e9ecef; font-size: 16px; }
+        .input-row button { padding: 16px 24px; background: linear-gradient(135deg, #007aff 0%, #34c759 100%); border: none; border-radius: 12px; color: white; cursor: pointer; font-size: 16px; font-weight: 600; }
+        .task { display: grid; grid-template-columns: auto 1fr auto auto; align-items: center; gap: 15px; background: rgba(255, 255, 255, 0.9); margin: 15px 0; padding: 20px; border-radius: 16px; transition: all 0.3s ease; }
+        .task input[type="checkbox"] { width: 22px; height: 22px; accent-color: #34c759; cursor: pointer; }
+        .task-text { font-weight: 500; font-size: 16px; color: #1d1d1f; }
+        .point { font-weight: 600; color: #007aff; background: rgba(0, 122, 255, 0.1); padding: 8px 14px; border-radius: 20px; font-size: 14px; }
+        .delete-btn { background: rgba(255, 59, 48, 0.1); border: 1px solid rgba(255, 59, 48, 0.2); font-size: 18px; cursor: pointer; padding: 8px; border-radius: 10px; }
+        .score { margin-top: 25px; text-align: center; font-weight: 600; color: #1d1d1f; font-size: 20px; padding: 20px; background: rgba(0, 122, 255, 0.05); border-radius: 16px; }
+        .action-buttons { display: flex; justify-content: center; gap: 30px; margin-top: 25px; }
+        .action-buttons button { background: linear-gradient(135deg, #007aff 0%, #0056b3 100%); border: none; font-size: 18px; cursor: pointer; padding: 15px 25px; border-radius: 12px; color: white; font-weight: 600; }
+        .page4-buttons { display: flex; justify-content: center; gap: 20px; margin-top: 25px; }
+        .page4-buttons button { padding: 14px 28px; background: white; color: #333; border: 2px solid #ccc; border-radius: 12px; font-size: 16px; cursor: pointer; font-weight: 600; }
+        .page6-reset { text-align: center; margin-top: 30px; padding-top: 25px; border-top: 2px solid rgba(0, 122, 255, 0.1); }
+        .reset-all-btn { background: white; color: #333; border: 2px solid #ccc; border-radius: 12px; padding: 16px 32px; font-size: 16px; font-weight: 600; cursor: pointer; }
+        .goal-box, .diary-box { width: 100%; min-height: 150px; padding: 20px; border: 2px solid rgba(0, 122, 255, 0.2); border-radius: 16px; font-family: inherit; font-size: 16px; resize: vertical; margin: 15px 0; }
         .goal-box { background: rgba(0, 122, 255, 0.05); }
         .diary-box { background: rgba(52, 199, 89, 0.05); }
-        label { 
-            display: block; 
-            margin-bottom: 12px; 
-            font-weight: 600; 
-            color: #1d1d1f; 
-            font-size: 18px; 
-        }
-        
-        .quote-container { 
-            text-align: center; 
-            padding: 30px 25px; 
-            background: linear-gradient(135deg, rgba(0, 122, 255, 0.1) 0%, rgba(52, 199, 89, 0.1) 100%); 
-            border-radius: 20px; 
-            margin: 25px 0; 
-            border: 1px solid rgba(0, 122, 255, 0.2);
-            box-shadow: 
-                0 20px 40px rgba(0, 122, 255, 0.15),
-                0 10px 25px rgba(0, 122, 255, 0.1),
-                inset 0 1px 0 rgba(255,255,255,0.15);
-            transform: translateZ(0);
-        }
-        .quote-text { 
-            font-size: 22px; 
-            font-weight: 600; 
-            color: #1d1d1f; 
-            line-height: 1.6; 
-            margin-bottom: 15px; 
-            font-style: italic; 
-        }
-        .quote-author { 
-            font-size: 16px; 
-            color: #6c757d; 
-            font-weight: 500; 
-        }
-        
-        table { 
-            width: 100%; 
-            border-collapse: collapse; 
-            margin-top: 25px; 
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 
-                0 15px 35px rgba(0,0,0,0.1),
-                0 8px 20px rgba(0,0,0,0.06),
-                inset 0 1px 0 rgba(255,255,255,0.1);
-            transform: translateZ(0);
-        }
-        th, td { 
-            border: 1px solid rgba(0, 122, 255, 0.1); 
-            padding: 16px; 
-            text-align: center; 
-        }
-        th { 
-            background: linear-gradient(135deg, #007aff 0%, #34c759 100%); 
-            color: white; 
-            font-weight: 600;
-        }
-        tr:nth-child(even) { 
-            background: rgba(0, 122, 255, 0.03); 
-        }
-        tr:hover {
-            background: rgba(0, 122, 255, 0.08);
-        }
-        
-        /* 이모티콘 크기 증가 */
-        .mood-emoji {
-            font-size: 36px !important;
-            display: inline-block;
-        }
-        
-        /* 등급 스타일 */
+        label { display: block; margin-bottom: 12px; font-weight: 600; color: #1d1d1f; font-size: 18px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 25px; border-radius: 16px; overflow: hidden; }
+        th, td { border: 1px solid rgba(0, 122, 255, 0.1); padding: 16px; text-align: center; }
+        th { background: linear-gradient(135deg, #007aff 0%, #34c759 100%); color: white; font-weight: 600; }
+        tr:nth-child(even) { background: rgba(0, 122, 255, 0.03); }
+        .mood-emoji { font-size: 48px !important; display: inline-block; }
         .grade-s { background: linear-gradient(135deg, #ffd700, #ffed4e); color: #b8860b; font-weight: bold; }
         .grade-a { background: linear-gradient(135deg, #c0c0c0, #e8e8e8); color: #696969; font-weight: bold; }
         .grade-b { background: linear-gradient(135deg, #cd7f32, #daa520); color: #8b4513; font-weight: bold; }
         .grade-c { background: linear-gradient(135deg, #90ee90, #98fb98); color: #228b22; font-weight: bold; }
         .grade-d { background: linear-gradient(135deg, #ffb6c1, #ffc0cb); color: #dc143c; font-weight: bold; }
         .grade-f { background: linear-gradient(135deg, #ff6b6b, #ff8e8e); color: #8b0000; font-weight: bold; }
-        
-        .grade-badge {
-            padding: 4px 8px;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: bold;
-            text-align: center;
-            min-width: 30px;
-            display: inline-block;
-        }
-        
-        /* Swipe animations */
-        @keyframes slideIn {
-            from { transform: translateX(-50%) translateY(-20px); opacity: 0; }
-            to { transform: translateX(-50%) translateY(0); opacity: 1; }
-        }
-        @keyframes slideOut {
-            from { transform: translateX(-50%) translateY(0); opacity: 1; }
-            to { transform: translateX(-50%) translateY(-20px); opacity: 0; }
-        }
-        
-        /* Mobile touch optimization */
-        .container {
-            touch-action: pan-y;
-            user-select: none;
-        }
-        
-        /* 100점 축하 애니메이션 */
-        @keyframes celebrate {
-            0% { 
-                transform: scale(1); 
-                opacity: 1; 
-                filter: hue-rotate(0deg) brightness(1) saturate(1);
-            }
-            25% { 
-                transform: scale(1.8); 
-                opacity: 0.8; 
-                filter: hue-rotate(90deg) brightness(1.3) saturate(1.5);
-            }
-            50% { 
-                transform: scale(0.5); 
-                opacity: 1; 
-                filter: hue-rotate(180deg) brightness(1.1) saturate(1.8);
-            }
-            75% { 
-                transform: scale(2.2); 
-                opacity: 0.6; 
-                filter: hue-rotate(270deg) brightness(1.4) saturate(2);
-            }
-            100% { 
-                transform: scale(1); 
-                opacity: 1; 
-                filter: hue-rotate(360deg) brightness(1) saturate(1);
-            }
-        }
-        
-        .celebration-emoji {
-            animation: celebrate 1.2s ease-in-out infinite;
-            display: inline-block;
-            font-size: 32px !important;
-            transform-origin: center;
-        }
-
-        /* Responsive design */
-        @media (max-width: 768px) {
-            .container { 
-                margin: 10px; 
-                padding: 20px; 
-                border-radius: 16px; 
-            }
-            .nav-arrows { gap: 30px; }
-            .nav-arrow { width: 50px; height: 50px; font-size: 20px; }
-            h2 { font-size: 24px; }
-            .input-row { flex-direction: column; }
-            .input-row button { padding: 14px 20px; }
-            .page4-buttons { flex-direction: column; align-items: center; }
-            .page4-buttons button { width: 200px; }
-        }
+        .grade-badge { padding: 6px 12px; border-radius: 12px; font-size: 16px; font-weight: bold; min-width: 40px; display: inline-block; }
+        @keyframes celebrate { 0% { transform: scale(1) rotate(0deg); } 25% { transform: scale(2.5) rotate(180deg); } 50% { transform: scale(0.8) rotate(360deg); } 75% { transform: scale(2.8) rotate(540deg); } 100% { transform: scale(1) rotate(720deg); } }
+        .celebration-emoji { animation: celebrate 1.5s ease-in-out infinite; display: inline-block; font-size: 48px !important; }
+        .water-stone-img { display: block; margin: 30px auto; max-width: 400px; width: 100%; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); transition: transform 0.3s ease; }
+        .water-stone-img:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(0,0,0,0.25); }
     </style>
 </head>
 <body>
@@ -511,600 +64,120 @@
             <button class="nav-arrow" onclick="changePage(1)">→</button>
         </div>
 
-        <!-- Page 1: Checklist -->
         <div class="page active" id="page1">
-            <h2>My Self-Management Checklist ✅</h2>
-            
-            <!-- Current date/time display -->
+            <h2>My Self-Management Checklist <span onclick="showResetInfo()" style="cursor: pointer; font-size: 24px;">🍏</span></h2>
             <div style="text-align: center; margin-bottom: 20px; padding: 15px; background: #e8f5e8; border-radius: 8px;">
                 <div style="font-size: 18px; font-weight: bold; color: #2e7d32;" id="currentDateTime"></div>
             </div>
-            
             <div class="input-row">
                 <input type="text" id="newTask" placeholder="Enter a new task...">
                 <button onclick="addTask()">Add</button>
             </div>
             <div id="taskList">
-                <div class="task">
-                    <input type="checkbox" onchange="updateScore()">
-                    <span class="task-text">Study AI basics</span>
-                    <span class="point">20 points</span>
-                    <button class="delete-btn" onclick="deleteThis(this)">🍎</button>
-                </div>
-                <div class="task">
-                    <input type="checkbox" onchange="updateScore()">
-                    <span class="task-text">Cook dinner</span>
-                    <span class="point">20 points</span>
-                    <button class="delete-btn" onclick="deleteThis(this)">🍎</button>
-                </div>
-                <div class="task">
-                    <input type="checkbox" onchange="updateScore()">
-                    <span class="task-text">Exercise every hour</span>
-                    <span class="point">20 points</span>
-                    <button class="delete-btn" onclick="deleteThis(this)">🍎</button>
-                </div>
-                <div class="task">
-                    <input type="checkbox" onchange="updateScore()">
-                    <span class="task-text">Jump rope 50 times at sunset</span>
-                    <span class="point">20 points</span>
-                    <button class="delete-btn" onclick="deleteThis(this)">🍎</button>
-                </div>
-                <div class="task">
-                    <input type="checkbox" onchange="updateScore()">
-                    <span class="task-text">Study app development</span>
-                    <span class="point">20 points</span>
-                    <button class="delete-btn" onclick="deleteThis(this)">🍎</button>
-                </div>
+                <div class="task"><input type="checkbox" onchange="updateScore()"><span class="task-text">Study AI basics</span><span class="point">20 points</span><button class="delete-btn" onclick="deleteThis(this)">🍎</button></div>
+                <div class="task"><input type="checkbox" onchange="updateScore()"><span class="task-text">Cook dinner</span><span class="point">20 points</span><button class="delete-btn" onclick="deleteThis(this)">🍎</button></div>
+                <div class="task"><input type="checkbox" onchange="updateScore()"><span class="task-text">Exercise every hour</span><span class="point">20 points</span><button class="delete-btn" onclick="deleteThis(this)">🍎</button></div>
+                <div class="task"><input type="checkbox" onchange="updateScore()"><span class="task-text">Jump rope 50 times at sunset</span><span class="point">20 points</span><button class="delete-btn" onclick="deleteThis(this)">🍎</button></div>
+                <div class="task"><input type="checkbox" onchange="updateScore()"><span class="task-text">Study app development</span><span class="point">20 points</span><button class="delete-btn" onclick="deleteThis(this)">🍎</button></div>
             </div>
             <div class="score" id="scoreBoard">Today's Score: 0 / 100 points</div>
-            
-            <!-- Daily reset guide message + swipe guide -->
-            <div style="text-align: center; margin-top: 20px; padding: 16px; background: rgba(0, 122, 255, 0.05); border: 2px solid rgba(0, 122, 255, 0.1); border-radius: 16px; color: #1d1d1f;">
-                <strong style="color: #007aff;">💡 Start Fresh Every Day!</strong><br>
-                To start a new day, press <strong style="color: #007aff;">Refresh (F5)</strong> to reset checkboxes! 🔄<br>
-                <small style="color: #6c757d; margin-top: 8px; display: block; font-weight: 500;">📱 Mobile: Swipe left/right to change pages!</small>
+            <div style="text-align: center; margin-top: 20px; padding: 16px; background: rgba(0, 122, 255, 0.05); border: 2px solid rgba(0, 122, 255, 0.1); border-radius: 16px;">
+                <strong style="color: #007aff;">💡 Auto-Reset at Midnight!</strong><br>
+                Checkboxes automatically reset at 12:00 AM every day 🔄
             </div>
-            
-            <div class="action-buttons">
-                <button onclick="saveToStats()">⚓ Save</button>
-            </div>
+            <div class="action-buttons"><button onclick="saveToStats()">🍏 Save</button></div>
         </div>
 
-        <!-- Page 2: Daily Statistics -->
         <div class="page" id="page2">
             <h2>📅 This Month's Daily Performance</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Score</th>
-                        <th>Grade</th>
-                        <th>Percentage</th>
-                        <th>Mood</th>
-                    </tr>
-                </thead>
-                <tbody id="dailyStatsBody">
-                    <!-- Dynamically generated -->
-                </tbody>
-            </table>
+            <table><thead><tr><th>Date</th><th>Score</th><th>Grade</th><th>Percentage</th><th>Mood</th></tr></thead><tbody id="dailyStatsBody"></tbody></table>
         </div>
 
-        <!-- Page 3: Monthly Statistics -->
         <div class="page" id="page3">
             <h2>📊 Monthly Performance Statistics</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Month</th>
-                        <th>Average Score</th>
-                        <th>Grade</th>
-                        <th>Achievement Rate</th>
-                    </tr>
-                </thead>
-                <tbody id="monthlyStatsTable">
-                    <tr><td>January</td><td id="month1">0.0</td><td id="grade1">-</td><td id="rate1">0%</td></tr>
-                    <tr><td>February</td><td id="month2">0.0</td><td id="grade2">-</td><td id="rate2">0%</td></tr>
-                    <tr><td>March</td><td id="month3">0.0</td><td id="grade3">-</td><td id="rate3">0%</td></tr>
-                    <tr><td>April</td><td id="month4">0.0</td><td id="grade4">-</td><td id="rate4">0%</td></tr>
-                    <tr><td>May</td><td id="month5">0.0</td><td id="grade5">-</td><td id="rate5">0%</td></tr>
-                    <tr><td>June</td><td id="month6">0.0</td><td id="grade6">-</td><td id="rate6">0%</td></tr>
-                    <tr><td>July</td><td id="month7">0.0</td><td id="grade7">-</td><td id="rate7">0%</td></tr>
-                    <tr><td>August</td><td id="month8">0.0</td><td id="grade8">-</td><td id="rate8">0%</td></tr>
-                    <tr><td>September</td><td id="month9">0.0</td><td id="grade9">-</td><td id="rate9">0%</td></tr>
-                    <tr><td>October</td><td id="month10">0.0</td><td id="grade10">-</td><td id="rate10">0%</td></tr>
-                    <tr><td>November</td><td id="month11">0.0</td><td id="grade11">-</td><td id="rate11">0%</td></tr>
-                    <tr><td>December</td><td id="month12">0.0</td><td id="grade12">-</td><td id="rate12">0%</td></tr>
-                </tbody>
-            </table>
+            <table><thead><tr><th>Month</th><th>Average Score</th><th>Grade</th><th>Message</th></tr></thead><tbody id="monthlyStatsTable">
+                <tr><td>January</td><td id="month1">0.0</td><td id="grade1">-</td><td id="msg1">-</td></tr>
+                <tr><td>February</td><td id="month2">0.0</td><td id="grade2">-</td><td id="msg2">-</td></tr>
+                <tr><td>March</td><td id="month3">0.0</td><td id="grade3">-</td><td id="msg3">-</td></tr>
+                <tr><td>April</td><td id="month4">0.0</td><td id="grade4">-</td><td id="msg4">-</td></tr>
+                <tr><td>May</td><td id="month5">0.0</td><td id="grade5">-</td><td id="msg5">-</td></tr>
+                <tr><td>June</td><td id="month6">0.0</td><td id="grade6">-</td><td id="msg6">-</td></tr>
+                <tr><td>July</td><td id="month7">0.0</td><td id="grade7">-</td><td id="msg7">-</td></tr>
+                <tr><td>August</td><td id="month8">0.0</td><td id="grade8">-</td><td id="msg8">-</td></tr>
+                <tr><td>September</td><td id="month9">0.0</td><td id="grade9">-</td><td id="msg9">-</td></tr>
+                <tr><td>October</td><td id="month10">0.0</td><td id="grade10">-</td><td id="msg10">-</td></tr>
+                <tr><td>November</td><td id="month11">0.0</td><td id="grade11">-</td><td id="msg11">-</td></tr>
+                <tr><td>December</td><td id="month12">0.0</td><td id="grade12">-</td><td id="msg12">-</td></tr>
+            </tbody></table>
+            <div style="margin-top: 30px; text-align: center; font-weight: bold; color: #34c759; font-size: 18px; padding: 15px; background: rgba(52, 199, 89, 0.1); border-radius: 12px;">💰 Think of your score as your bank balance!!</div>
         </div>
 
-        <!-- Page 4: Goals & Diary -->
         <div class="page" id="page4">
             <h2>🎯 My Goals & Reflection Diary</h2>
             <label>💭 This Year's Goals and Aspirations</label>
             <textarea class="goal-box" id="goalBox" placeholder="Write your annual goals and aspirations here..."></textarea>
             <label>📝 Reflection and Achievement Records</label>
             <textarea class="diary-box" id="diaryBox" placeholder="Record your reflections, thoughts, and achievements freely..."></textarea>
-            
             <div class="page4-buttons">
-                <button class="input-clear-btn" onclick="clearInputs()">📝 Clear Input</button>
-                <button class="save-btn" onclick="saveInputs()">💾 Save</button>
+                <button onclick="clearInputs()">🍎 Clear Input</button>
+                <button onclick="saveInputs()">🍏 Save</button>
             </div>
         </div>
 
-        <!-- Page 5: Yearly Statistics (수정된 부분) -->
         <div class="page" id="page5">
             <h2>📈 Yearly Performance History</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Year</th>
-                        <th>Annual Average Score</th>
-                        <th>Best Achievement Rate</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr><td>2025</td><td id="yearlyAverage2025">Data Collection in Progress</td><td id="yearlyBest2025">-</td><td>🔥 Active</td></tr>
-                    <tr><td>2026</td><td>-</td><td>-</td><td>🎯 Planning</td></tr>
-                    <tr><td>2027</td><td>-</td><td>-</td><td>🎯 Planning</td></tr>
-                    <tr><td>2028</td><td>-</td><td>-</td><td>🎯 Planning</td></tr>
-                    <tr><td>2029</td><td>-</td><td>-</td><td>🎯 Planning</td></tr>
-                </tbody>
-            </table>
-            <div style="margin-top: 30px; text-align: center; font-weight: bold; color: #2196F3; font-size: 18px;">
-                🏆 Overall Average Score: <span id="overallAverage">Data Collection in Progress</span>
-            </div>
+            <table><thead><tr><th>Year</th><th>Annual Average Score</th><th>Best Achievement Rate</th><th>Status</th></tr></thead><tbody>
+                <tr><td>2025</td><td id="yearlyAverage2025">Data Collection in Progress</td><td id="yearlyBest2025">-</td><td>🔥 Active</td></tr>
+                <tr><td>2026</td><td>-</td><td>-</td><td>🎯 Planning</td></tr>
+                <tr><td>2027</td><td>-</td><td>-</td><td>🎯 Planning</td></tr>
+                <tr><td>2028</td><td>-</td><td>-</td><td>🎯 Planning</td></tr>
+                <tr><td>2029</td><td>-</td><td>-</td><td>🎯 Planning</td></tr>
+            </tbody></table>
+            <div style="margin-top: 30px; text-align: center; font-weight: bold; color: #2196F3; font-size: 18px;">🏆 Overall Average Score: <span id="overallAverage">Data Collection in Progress</span></div>
         </div>
 
-        <!-- Page 6: Quote -->
         <div class="page" id="page6">
             <div style="font-weight: 500; font-size: 18px; color: #2e7d32; margin-bottom: 15px;">⏰ Success Tips</div>
-            <div style="background: #f0f8f0; padding: 20px; border-radius: 8px; text-align: left; line-height: 1.8; font-family: inherit; margin-bottom: 30px;">
+            <div style="background: #f0f8f0; padding: 20px; border-radius: 8px; line-height: 1.8; margin-bottom: 30px;">
                 • <strong>The Power of Resilience:</strong> Doing great work is not about daily joy and happiness. It's about loving what you do and having resilience.<br><br>
                 • <strong>Growth Through Challenges:</strong> People with too high expectations typically don't have enough resilience. Unfortunately, the key to success is resilience... I hope you are put through sufficient adversity and hardship.<br><br>
                 • <strong>The Value of Hard Work:</strong> There might be someone smarter than me, but there will never be anyone who works harder than me.<br><br>
-                <div style="text-align: right; color: #6c757d; font-style: italic; margin-top: 15px;">- Jensen Huang -</div>
+                <div style="text-align: right; color: #6c757d; font-style: italic;">- Jensen Huang -</div>
             </div>
-            
             <div style="font-weight: 500; font-size: 18px; color: #2e7d32; margin-bottom: 15px;">⏰ Time Management Principles</div>
-            <div style="background: #f0f8f0; padding: 20px; border-radius: 8px; text-align: left; line-height: 1.8; font-family: inherit;">
+            <div style="background: #f0f8f0; padding: 20px; border-radius: 8px; line-height: 1.8;">
                 • <strong>Start Small:</strong> If you can't do anything on a given day, just do it for 5 minutes. Starting is half the battle.<br><br>
                 • <strong>Priority Focus:</strong> Complete the 3 most important tasks first. Everything else comes after.<br><br>
                 • <strong>Time as Investment:</strong> Every moment in your youth is a temporal investment in yourself. Choose wisely and execute strategically.
             </div>
-            
-            <div class="page6-reset">
-                <button class="reset-all-btn" onclick="resetAll()">🍎 Complete Reset (Delete All)</button>
-            </div>
+            <img src="./water-stone.jpg" alt="Water drops pierce stone" class="water-stone-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <div style="display: none; text-align: center; padding: 20px; background: #f5f5f5; border-radius: 8px; color: #666;">Image not found. Please ensure 'water-stone.jpg' is in the same folder as this HTML file.</div>
+            <div class="page6-reset"><button class="reset-all-btn" onclick="resetAll()">🍎 Complete Reset (Delete All)</button></div>
         </div>
     </div>
 
     <script>
-        let currentPageNum = 1;
-        let basePoints = 100;
-
-        // Update current date/time
-        function updateDateTime() {
-            const now = new Date();
-            const dateOptions = {
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-            };
-            const timeOptions = {
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit',
-                hour12: true
-            };
-            
-            const dateString = now.toLocaleDateString('en-US', dateOptions);
-            const timeString = now.toLocaleTimeString('en-US', timeOptions);
-            
-            const dateTimeElement = document.getElementById('currentDateTime');
-            if (dateTimeElement) {
-                dateTimeElement.textContent = `${dateString} • ${timeString}`;
-            }
-        }
-
-        function changePage(direction) {
-            const newPage = currentPageNum + direction;
-            if (newPage >= 1 && newPage <= 6) {
-                // Hide current page
-                const currentPageElement = document.getElementById(`page${currentPageNum}`);
-                if (currentPageElement) {
-                    currentPageElement.classList.remove('active');
-                }
-                
-                // Show new page
-                currentPageNum = newPage;
-                const newPageElement = document.getElementById(`page${currentPageNum}`);
-                if (newPageElement) {
-                    newPageElement.classList.add('active');
-                }
-                
-                document.getElementById('currentPage').textContent = currentPageNum;
-                
-                // Page-specific logic
-                if (currentPageNum === 2) updateDailyStats();
-                if (currentPageNum === 3) updateMonthlyStats();
-                if (currentPageNum === 4) loadSavedData();
-                if (currentPageNum === 5) updateYearlyStats(); // 연간 통계 업데이트 추가
-            }
-        }
-
-        function updateScore() {
-            const checkboxes = document.querySelectorAll("#page1 input[type='checkbox']");
-            let score = 0;
-            checkboxes.forEach(cb => {
-                if (cb.checked) score += 20;
-            });
-            document.getElementById('scoreBoard').textContent = `Today's Score: ${score} / ${basePoints} points`;
-        }
-
-        function deleteThis(button) {
-            if (confirm('Are you sure you want to delete this item?')) {
-                button.parentElement.remove();
-                basePoints -= 20;
-                updateScore();
-                alert('Item deleted!');
-            }
-        }
-
-        function addTask() {
-            const tasks = document.querySelectorAll('.task');
-            if (tasks.length >= 5) {
-                alert('Please delete an existing item first to add a new one!');
-                return;
-            }
-            
-            const input = document.getElementById('newTask');
-            const taskName = input.value.trim();
-            if (!taskName) {
-                alert('Please enter a task!');
-                return;
-            }
-            
-            const taskList = document.getElementById('taskList');
-            const taskDiv = document.createElement('div');
-            taskDiv.className = 'task';
-            taskDiv.innerHTML = `
-                <input type="checkbox" onchange="updateScore()">
-                <span class="task-text">${taskName}</span>
-                <span class="point">20 points</span>
-                <button class="delete-btn" onclick="deleteThis(this)">🍎</button>
-            `;
-            
-            taskList.appendChild(taskDiv);
-            input.value = '';
-            basePoints += 20;
-            updateScore();
-            alert('Task added!');
-        }
-
-        function saveToStats() {
-            const checkboxes = document.querySelectorAll("#page1 input[type='checkbox']");
-            let score = 0;
-            checkboxes.forEach(cb => {
-                if (cb.checked) score += 20;
-            });
-            
-            if (score === 0) {
-                alert('No score to save!');
-                return;
-            }
-            
-            const today = new Date();
-            const dateKey = today.getFullYear() + '-' + today.getMonth() + '-' + today.getDate();
-            
-            let dailyData = JSON.parse(localStorage.getItem('dailyStats') || '{}');
-            dailyData[dateKey] = { score: score, date: today.getDate() };
-            localStorage.setItem('dailyStats', JSON.stringify(dailyData));
-            
-            updateMonthlyStats();
-            alert(`${score} points saved!`);
-        }
-
-        // Get grade based on score
-        function getGrade(score) {
-            if (score >= 100) return { grade: 'S', class: 'grade-s' };
-            else if (score >= 80) return { grade: 'A', class: 'grade-a' };
-            else if (score >= 60) return { grade: 'B', class: 'grade-b' };
-            else if (score >= 40) return { grade: 'C', class: 'grade-c' };
-            else if (score >= 20) return { grade: 'D', class: 'grade-d' };
-            else return { grade: 'F', class: 'grade-f' };
-        }
-
-        function updateDailyStats() {
-            const today = new Date();
-            const currentMonth = today.getMonth();
-            const currentYear = today.getFullYear();
-            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
-            
-            const tbody = document.getElementById('dailyStatsBody');
-            if (!tbody) return;
-            
-            tbody.innerHTML = '';
-            
-            const dailyData = JSON.parse(localStorage.getItem('dailyStats') || '{}');
-            
-            for (let day = 1; day <= daysInMonth; day++) {
-                const dateKey = currentYear + '-' + currentMonth + '-' + day;
-                const dayData = dailyData[dateKey];
-                const row = document.createElement('tr');
-                
-                if (dayData) {
-                    // Get mood emoji and grade based on score
-                    const moodEmoji = getMoodEmoji(dayData.score);
-                    const gradeInfo = getGrade(dayData.score);
-                    const percentage = Math.round(dayData.score/100*100);
-                    
-                    row.innerHTML = `
-                        <td>Day ${day}</td>
-                        <td>${dayData.score} points</td>
-                        <td><span class="grade-badge ${gradeInfo.class}">${gradeInfo.grade}</span></td>
-                        <td>${percentage}%</td>
-                        <td class="mood-emoji">${moodEmoji}</td>
-                    `;
-                } else {
-                    row.innerHTML = `
-                        <td>Day ${day}</td>
-                        <td>-</td>
-                        <td>-</td>
-                        <td>-</td>
-                        <td class="mood-emoji">😶</td>
-                    `;
-                    row.style.opacity = '0.5';
-                }
-                
-                tbody.appendChild(row);
-            }
-        }
-
-        // Get mood emoji based on score (크기 증가)
-        function getMoodEmoji(score) {
-            if (score >= 100) return '<span class="celebration-emoji">🎉</span>'; // Perfect - Animated celebration
-            else if (score >= 80) return '😊'; // Great - Happy
-            else if (score >= 60) return '🙂'; // Good - Content
-            else if (score >= 40) return '😐'; // Okay - Neutral
-            else if (score >= 20) return '😔'; // Low - Sad
-            else return '😞'; // Very low - Disappointed
-        }
-
-        function updateMonthlyStats() {
-            const today = new Date();
-            const dailyData = JSON.parse(localStorage.getItem('dailyStats') || '{}');
-            
-            let monthlyTotals = {};
-            let monthlyCounts = {};
-            
-            for (let dateKey in dailyData) {
-                const parts = dateKey.split('-');
-                const year = parseInt(parts[0]);
-                const month = parseInt(parts[1]) + 1;
-                const monthKey = `month${month}`;
-                
-                if (year === today.getFullYear()) {
-                    if (!monthlyTotals[monthKey]) {
-                        monthlyTotals[monthKey] = 0;
-                        monthlyCounts[monthKey] = 0;
-                    }
-                    monthlyTotals[monthKey] += dailyData[dateKey].score;
-                    monthlyCounts[monthKey]++;
-                }
-            }
-            
-            for (let i = 1; i <= 12; i++) {
-                const monthKey = `month${i}`;
-                const gradeKey = `grade${i}`;
-                const rateKey = `rate${i}`;
-                
-                const scoreElement = document.getElementById(monthKey);
-                const gradeElement = document.getElementById(gradeKey);
-                const rateElement = document.getElementById(rateKey);
-                
-                if (scoreElement && gradeElement && rateElement) {
-                    if (monthlyTotals[monthKey]) {
-                        const avg = monthlyTotals[monthKey] / monthlyCounts[monthKey];
-                        const achievementRate = Math.round((avg/100)*100);
-                        const gradeInfo = getGrade(avg);
-                        
-                        scoreElement.textContent = avg.toFixed(1);
-                        rateElement.textContent = `${achievementRate}%`;
-                        gradeElement.innerHTML = `<span class="grade-badge ${gradeInfo.class}">${gradeInfo.grade}</span>`;
-                        
-                        // 행 전체에 약간의 배경색 적용
-                        const row = scoreElement.parentElement;
-                        row.style.backgroundColor = gradeInfo.class.includes('grade-s') ? 'rgba(255, 215, 0, 0.1)' :
-                                                   gradeInfo.class.includes('grade-a') ? 'rgba(192, 192, 192, 0.1)' :
-                                                   gradeInfo.class.includes('grade-b') ? 'rgba(205, 127, 50, 0.1)' : '';
-                    } else {
-                        scoreElement.textContent = '0.0';
-                        rateElement.textContent = '0%';
-                        gradeElement.textContent = '-';
-                    }
-                }
-            }
-        }
-
-        // 새로 추가된 연간 통계 업데이트 함수
-        function updateYearlyStats() {
-            const dailyData = JSON.parse(localStorage.getItem('dailyStats') || '{}');
-            
-            if (Object.keys(dailyData).length === 0) {
-                return; // 데이터가 없으면 초기값 유지
-            }
-            
-            let totalScore = 0;
-            let totalDays = 0;
-            let bestScore = 0;
-            
-            // 모든 일별 데이터를 순회하며 평균 계산
-            for (let dateKey in dailyData) {
-                const score = dailyData[dateKey].score;
-                totalScore += score;
-                totalDays++;
-                if (score > bestScore) {
-                    bestScore = score;
-                }
-            }
-            
-            if (totalDays > 0) {
-                // 연간 평균 계산 (일별 점수들의 산술평균)
-                const yearlyAverage = totalScore / totalDays;
-                const bestAchievementRate = Math.round((bestScore / 100) * 100);
-                
-                // 2025년 데이터 업데이트
-                const yearlyAverageElement = document.getElementById('yearlyAverage2025');
-                const yearlyBestElement = document.getElementById('yearlyBest2025');
-                const overallAverageElement = document.getElementById('overallAverage');
-                
-                if (yearlyAverageElement) {
-                    yearlyAverageElement.textContent = `${yearlyAverage.toFixed(1)} points`;
-                }
-                if (yearlyBestElement) {
-                    yearlyBestElement.textContent = `${bestAchievementRate}%`;
-                }
-                if (overallAverageElement) {
-                    overallAverageElement.textContent = `${yearlyAverage.toFixed(1)} points (${Math.round((yearlyAverage/100)*100)}%)`;
-                }
-            }
-        }
-
-        function clearInputs() {
-            if (confirm('Are you sure you want to clear all input?')) {
-                const goalBox = document.getElementById('goalBox');
-                const diaryBox = document.getElementById('diaryBox');
-                if (goalBox) goalBox.value = '';
-                if (diaryBox) diaryBox.value = '';
-                alert('Input cleared.');
-            }
-        }
-
-        function saveInputs() {
-            const goalBox = document.getElementById('goalBox');
-            const diaryBox = document.getElementById('diaryBox');
-            if (!goalBox || !diaryBox) return;
-            
-            const goal = goalBox.value.trim();
-            const diary = diaryBox.value.trim();
-            if (!goal && !diary) {
-                alert('No content to save!');
-                return;
-            }
-            localStorage.setItem('userGoal', goal);
-            localStorage.setItem('userDiary', diary);
-            alert('Goals and diary saved!');
-        }
-
-        function resetAll() {
-            if (confirm('⚠️ Are you sure you want to delete ALL data?\n\nThis action cannot be undone and will delete:\n• All daily/monthly statistics\n• Saved goals and diary\n• Checklist progress\n\nDo you want to continue?')) {
-                localStorage.clear();
-                alert('All data has been deleted.');
-                location.reload();
-            }
-        }
-
-        function loadSavedData() {
-            const goalBox = document.getElementById('goalBox');
-            const diaryBox = document.getElementById('diaryBox');
-            if (goalBox && diaryBox) {
-                goalBox.value = localStorage.getItem('userGoal') || '';
-                diaryBox.value = localStorage.getItem('userDiary') || '';
-            }
-        }
-
-        // Initialize
-        updateDateTime();
-        setInterval(updateDateTime, 1000);
-        loadSavedData();
-
-        // Mobile swipe functionality
-        let touchStartX = 0;
-        let touchEndX = 0;
-        let touchStartY = 0;
-        let touchEndY = 0;
-
-        // Touch start
-        document.addEventListener('touchstart', function(e) {
-            touchStartX = e.changedTouches[0].screenX;
-            touchStartY = e.changedTouches[0].screenY;
-        });
-
-        // Touch end
-        document.addEventListener('touchend', function(e) {
-            touchEndX = e.changedTouches[0].screenX;
-            touchEndY = e.changedTouches[0].screenY;
-            handleSwipe();
-        });
-
-        // Handle swipe
-        function handleSwipe() {
-            const swipeThreshold = 50;
-            const swipeDistanceX = Math.abs(touchEndX - touchStartX);
-            const swipeDistanceY = Math.abs(touchEndY - touchStartY);
-            
-            if (swipeDistanceY > swipeDistanceX) {
-                return;
-            }
-            
-            if (swipeDistanceX > swipeThreshold) {
-                if (touchEndX < touchStartX) {
-                    changePage(1);
-                    showSwipeIndicator('Next Page →');
-                } else {
-                    changePage(-1);
-                    showSwipeIndicator('← Previous Page');
-                }
-            }
-        }
-
-        // Show swipe indicator
-        function showSwipeIndicator(message) {
-            const existingToast = document.getElementById('swipeToast');
-            if (existingToast) {
-                existingToast.remove();
-            }
-            
-            const toast = document.createElement('div');
-            toast.id = 'swipeToast';
-            toast.style.cssText = `
-                position: fixed; 
-                top: 20px; 
-                left: 50%; 
-                transform: translateX(-50%); 
-                background: rgba(0, 122, 255, 0.9); 
-                color: white; 
-                padding: 10px 20px; 
-                border-radius: 20px; 
-                font-size: 14px; 
-                font-weight: bold; 
-                z-index: 3000;
-                animation: slideIn 0.3s ease;
-            `;
-            toast.textContent = message;
-            
-            document.body.appendChild(toast);
-            
-            setTimeout(() => {
-                if (toast) {
-                    toast.style.animation = 'slideOut 0.3s ease';
-                    setTimeout(() => toast.remove(), 300);
-                }
-            }, 1500);
-        }
-
-        // Enter key for adding tasks
-        const newTaskInput = document.getElementById('newTask');
-        if (newTaskInput) {
-            newTaskInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    addTask();
-                }
-            });
-        }
+        let currentPageNum=1,basePoints=100;
+        function showResetInfo(){alert('Checkboxes automatically reset at midnight (12:00 AM)')}
+        function updateDateTime(){const n=new Date(),d=n.toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'}),t=n.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:true}),e=document.getElementById('currentDateTime');e&&(e.textContent=`${d} • ${t}`);checkDateChange()}
+        function checkDateChange(){const t=new Date(),s=t.getFullYear()+'-'+t.getMonth()+'-'+t.getDate(),l=localStorage.getItem('lastCheckDate');l&&l!==s&&(resetDailyCheckboxes(),alert('🌅 New day started!\nCheckboxes have been reset.'));localStorage.setItem('lastCheckDate',s)}
+        function resetDailyCheckboxes(){document.querySelectorAll("#page1 input[type='checkbox']").forEach(c=>{c.checked=false});updateScore()}
+        function changePage(d){const n=currentPageNum+d;if(n>=1&&n<=6){document.getElementById(`page${currentPageNum}`).classList.remove('active');currentPageNum=n;document.getElementById(`page${currentPageNum}`).classList.add('active');document.getElementById('currentPage').textContent=currentPageNum;if(currentPageNum===2)updateDailyStats();if(currentPageNum===3)updateMonthlyStats();if(currentPageNum===4)loadSavedData();if(currentPageNum===5)updateYearlyStats()}}
+        function updateScore(){let s=0;document.querySelectorAll("#page1 input[type='checkbox']").forEach(c=>{if(c.checked)s+=20});document.getElementById('scoreBoard').textContent=`Today's Score: ${s} / ${basePoints} points`}
+        function deleteThis(b){if(confirm('Are you sure you want to delete this item?')){b.parentElement.remove();basePoints-=20;updateScore();alert('Item deleted!')}}
+        function addTask(){if(document.querySelectorAll('.task').length>=5){alert('Please delete an existing item first!');return}const i=document.getElementById('newTask'),n=i.value.trim();if(!n){alert('Please enter a task!');return}const l=document.getElementById('taskList'),d=document.createElement('div');d.className='task';d.innerHTML=`<input type="checkbox" onchange="updateScore()"><span class="task-text">${n}</span><span class="point">20 points</span><button class="delete-btn" onclick="deleteThis(this)">🍎</button>`;l.appendChild(d);i.value='';basePoints+=20;updateScore();alert('Task added!')}
+        function saveToStats(){let s=0;document.querySelectorAll("#page1 input[type='checkbox']").forEach(c=>{if(c.checked)s+=20});if(s===0){alert('No score to save!');return}const t=new Date(),k=t.getFullYear()+'-'+t.getMonth()+'-'+t.getDate();let d=JSON.parse(localStorage.getItem('dailyStats')||'{}');d[k]={score:s,date:t.getDate()};localStorage.setItem('dailyStats',JSON.stringify(d));updateMonthlyStats();alert(`${s} points saved!`)}
+        function getGrade(s){if(s>=100)return{grade:'S',class:'grade-s'};if(s>=80)return{grade:'A',class:'grade-a'};if(s>=60)return{grade:'B',class:'grade-b'};if(s>=40)return{grade:'C',class:'grade-c'};if(s>=20)return{grade:'D',class:'grade-d'};return{grade:'F',class:'grade-f'}}
+        function getMotivationalMessage(s){if(s>=100)return'Perfect Score!';if(s>=80)return'Excellent Work';if(s>=60)return'Strong Performance';if(s>=40)return'Good Progress';if(s>=20)return'Keep Building Up';return'Start Fresh Tomorrow'}
+        function getMoodEmoji(s){if(s>=100)return'<span class="celebration-emoji">🎉</span>';if(s>=80)return'😊';if(s>=60)return'🙂';if(s>=40)return'😐';if(s>=20)return'😔';return'😞'}
+        function updateDailyStats(){const t=new Date(),m=t.getMonth(),y=t.getFullYear(),d=new Date(y,m+1,0).getDate(),b=document.getElementById('dailyStatsBody');if(!b)return;b.innerHTML='';const data=JSON.parse(localStorage.getItem('dailyStats')||'{}');for(let i=1;i<=d;i++){const k=y+'-'+m+'-'+i,v=data[k],r=document.createElement('tr');if(v){const p=Math.round(v.score),g=getGrade(v.score),e=getMoodEmoji(v.score);r.innerHTML=`<td>Day ${i}</td><td>${v.score} points</td><td><span class="grade-badge ${g.class}">${g.grade}</span></td><td>${p}%</td><td class="mood-emoji">${e}</td>`}else{r.innerHTML=`<td>Day ${i}</td><td>-</td><td>-</td><td>-</td><td class="mood-emoji">😶</td>`;r.style.opacity='0.5'}b.appendChild(r)}}
+        function updateMonthlyStats(){const t=new Date(),data=JSON.parse(localStorage.getItem('dailyStats')||'{}');let mt={},mc={};for(let k in data){const p=k.split('-'),y=parseInt(p[0]),m=parseInt(p[1])+1,mk=`month${m}`;if(y===t.getFullYear()){if(!mt[mk]){mt[mk]=0;mc[mk]=0}mt[mk]+=data[k].score;mc[mk]++}}for(let i=1;i<=12;i++){const mk=`month${i}`,gk=`grade${i}`,msgk=`msg${i}`,se=document.getElementById(mk),ge=document.getElementById(gk),me=document.getElementById(msgk);if(se&&ge&&me){if(mt[mk]){const a=mt[mk]/mc[mk],g=getGrade(a),msg=getMotivationalMessage(a);se.textContent=a.toFixed(1);ge.innerHTML=`<span class="grade-badge ${g.class}">${g.grade}</span>`;me.textContent=msg}else{se.textContent='0.0';ge.textContent='-';me.textContent='-'}}}}
+        function updateYearlyStats(){const data=JSON.parse(localStorage.getItem('dailyStats')||'{}');if(Object.keys(data).length===0)return;let tot=0,cnt=0,best=0;for(let k in data){const s=data[k].score;tot+=s;cnt++;if(s>best)best=s}if(cnt>0){const avg=tot/cnt,rate=Math.round((best/100)*100),ye=document.getElementById('yearlyAverage2025'),be=document.getElementById('yearlyBest2025'),oe=document.getElementById('overallAverage');ye&&(ye.textContent=`${avg.toFixed(1)} points`);be&&(be.textContent=`${rate}%`);oe&&(oe.textContent=`${avg.toFixed(1)} points (${Math.round((avg/100)*100)}%)`)}}
+        function clearInputs(){if(confirm('Are you sure you want to clear all input?')){const g=document.getElementById('goalBox'),d=document.getElementById('diaryBox');g&&(g.value='');d&&(d.value='');alert('Input cleared.')}}
+        function saveInputs(){const g=document.getElementById('goalBox'),d=document.getElementById('diaryBox');if(!g||!d)return;const gv=g.value.trim(),dv=d.value.trim();if(!gv&&!dv){alert('No content to save!');return}localStorage.setItem('userGoal',gv);localStorage.setItem('userDiary',dv);alert('Goals and diary saved!')}
+        function resetAll(){if(confirm('⚠️ Are you sure you want to delete ALL data?\n\nThis action cannot be undone!')){localStorage.clear();alert('All data has been deleted.');location.reload()}}
+        function loadSavedData(){const g=document.getElementById('goalBox'),d=document.getElementById('diaryBox');g&&d&&(g.value=localStorage.getItem('userGoal')||'',d.value=localStorage.getItem('userDiary')||'')}
+        updateDateTime();setInterval(updateDateTime,1000);loadSavedData();const ni=document.getElementById('newTask');ni&&ni.addEventListener('keypress',e=>{if(e.key==='Enter')addTask()});
     </script>
 </body>
 </html>
