@@ -178,6 +178,10 @@
         function resetAll(){if(confirm('⚠️ Are you sure you want to delete ALL data?\n\nThis action cannot be undone!')){localStorage.clear();alert('All data has been deleted.');location.reload()}}
         function loadSavedData(){const g=document.getElementById('goalBox'),d=document.getElementById('diaryBox');g&&d&&(g.value=localStorage.getItem('userGoal')||'',d.value=localStorage.getItem('userDiary')||'')}
         updateDateTime();setInterval(updateDateTime,1000);loadSavedData();const ni=document.getElementById('newTask');ni&&ni.addEventListener('keypress',e=>{if(e.key==='Enter')addTask()});
+        // 페이지 로드 시 날짜 체크
+        window.addEventListener('load', function() {
+            checkDateChange();
+        });
     </script>
 </body>
 </html>
